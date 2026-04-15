@@ -318,7 +318,6 @@ async function exportCourseData() {
   await chrome.downloads.download({
     url: dataUrl,
     filename: `kulms-export-${date}.json`,
-    saveAs: true,
   });
 
   return { success: true, siteCount: siteDetails.length };
