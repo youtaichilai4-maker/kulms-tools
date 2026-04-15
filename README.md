@@ -44,6 +44,40 @@
 
 ---
 
+## How It Works
+
+<div align="center">
+
+<p>KULMS の画面に<strong>時計型のアイコン</strong>が出現。タップして各種機能を使ってみよう。</p>
+
+<br>
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="docs/images/header-icon.png" alt="KULMS ヘッダーに追加された時計アイコン" width="400">
+      <br><br>
+      <strong>1. ヘッダーに時計アイコンが追加される</strong><br>
+      <sub>KULMS サイトのナビゲーションバーに自動で組み込まれる。<br>通知ベルの隣に配置されるので、いつでもワンタップでアクセス。</sub>
+    </td>
+  </tr>
+  <tr><td><br></td></tr>
+  <tr>
+    <td align="center">
+      <img src="docs/images/panel.png" alt="サイドパネルで締切一覧を表示" width="400">
+      <br><br>
+      <strong>2. サイドパネルで締切を一覧表示</strong><br>
+      <sub>タップするとサイドパネルがスライドイン。<br>課題・小テストの締切を緊急度別に色分け表示。<br>「<strong>今すぐ更新</strong>」でデータを即時リフレッシュ、<br>「<strong>エクスポート</strong>」でローカル同期用の JSON を出力。</sub>
+    </td>
+  </tr>
+</table>
+
+</div>
+
+<br>
+
+---
+
 ## Quick Start
 
 ```bash
