@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "KULMS Deadline Notifier",
+  "version": "1.1.0",
+  "description": "京都大学 KULMS の課題締切をバナーで表示する拡張機能",
+  "permissions": ["storage", "alarms", "downloads", "cookies"],
+  "host_permissions": ["https://lms.gakusei.kyoto-u.ac.jp/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://lms.gakusei.kyoto-u.ac.jp/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

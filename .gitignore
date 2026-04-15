@@ -1,0 +1,8 @@
+# Export JSONs (contain session cookies)
+kulms-export-*.json
+
+# Course contents (personal data — PDFs, notes, etc.)
+courses/*/
+
+# OS
+.DS_Store

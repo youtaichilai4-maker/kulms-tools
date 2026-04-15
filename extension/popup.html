@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-header">
+    <h1>KULMS Deadline</h1>
+    <span id="lastFetched" class="popup-meta"></span>
+  </div>
+  <div id="error" class="popup-error" hidden></div>
+  <div id="list" class="popup-list"></div>
+  <div id="empty" class="popup-empty" hidden>締切のある課題はありません</div>
+  <div class="popup-footer">
+    <div class="popup-btn-row">
+      <button id="refreshBtn">今すぐ更新</button>
+      <button id="exportBtn" class="popup-export-btn">エクスポート</button>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
