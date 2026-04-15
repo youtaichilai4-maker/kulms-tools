@@ -339,6 +339,7 @@ Issue でバグ報告・機能要望 / Pull Request でコード改善
 
 ### Roadmap / 改善アイデア
 
+- [ ] GUI 同期ツール（CLI が使えなくてもダブルクリックで資料同期できるデスクトップアプリ）
 - [ ] 資料の自動ダウンロード（Native Messaging で `~/Downloads` を経由しない）
 - [ ] 締切の Google Calendar / Apple Calendar 連携
 - [ ] KULMS のお知らせ・掲示板の取得
