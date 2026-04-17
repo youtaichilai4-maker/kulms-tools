@@ -58,20 +58,54 @@ def needs_download(dest, remote_size):
     return None
 
 
-def dl(url, dest, cookie):
+def _is_html(ct, data):
+    if "text/html" in ct:
+        return True
+    head = data[:50].lstrip()
+    return head.startswith(b"<!DOCTYPE") or head.startswith(b"<html")
+
+
+def _fetch(url, cookie):
     req = urllib.request.Request(url, headers={"Cookie": cookie})
+    with urllib.request.urlopen(req) as r:
+        return r.headers.get("Content-Type", ""), r.read()
+
+
+def _accept_copyright(url, cookie):
+    """Sakai 著作権同意を送信してリトライ可能にする。"""
+    from urllib.parse import urlparse
+    parsed = urlparse(url)
+    # /access/content/group/{siteId}/file → ref=/content/group/{siteId}/file
+    path = parsed.path
+    ref = path.replace("/access/content", "/content", 1)
+    accept_url = f"{parsed.scheme}://{parsed.netloc}/access/accept?ref={ref}&url={path}"
+    req = urllib.request.Request(accept_url, headers={"Cookie": cookie})
     try:
-        with urllib.request.urlopen(req) as r:
-            ct = r.headers.get("Content-Type", "")
-            if "text/html" in ct:
+        urllib.request.urlopen(req)
+        return True
+    except Exception:
+        return False
+
+
+def dl(url, dest, cookie):
+    try:
+        ct, data = _fetch(url, cookie)
+        if _is_html(ct, data):
+            html = data.decode("utf-8", errors="ignore")
+            if "login" in html.lower():
                 print(f"    SKIP(認証切れ): {dest.name}")
                 return False
-            data = r.read()
-            if data[:15].lstrip().startswith(b"<!DOCTYPE") or data[:15].lstrip().startswith(b"<html"):
-                print(f"    SKIP(認証切れ): {dest.name}")
-                return False
-            with open(dest, "wb") as f:
-                f.write(data)
+            # 著作権同意を試行してリトライ
+            if _accept_copyright(url, cookie):
+                ct2, data2 = _fetch(url, cookie)
+                if not _is_html(ct2, data2):
+                    with open(dest, "wb") as f:
+                        f.write(data2)
+                    return True
+            print(f"    SKIP(著作権同意失敗): {dest.name}")
+            return False
+        with open(dest, "wb") as f:
+            f.write(data)
         return True
     except (urllib.error.URLError, OSError) as e:
         print(f"    FAIL: {e}")
