@@ -292,6 +292,22 @@ async function exportCourseData() {
     })
   );
 
+  // Pre-accept copyright for all resources
+  const allResourceUrls = siteDetails.flatMap((s) =>
+    s.resources.filter((r) => r.url).map((r) => r.url)
+  );
+  await Promise.all(
+    allResourceUrls.map(async (url) => {
+      try {
+        const path = new URL(url).pathname;
+        const ref = path.replace("/access/content", "/content");
+        await fetch(`${BASE_URL}/access/accept?ref=${ref}&url=${path}`, {
+          credentials: "include",
+        });
+      } catch {}
+    })
+  );
+
   const now = new Date();
   const exportData = {
     exportedAt: now.toISOString(),
