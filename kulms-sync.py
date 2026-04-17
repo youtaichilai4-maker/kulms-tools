@@ -61,8 +61,17 @@ def needs_download(dest, remote_size):
 def dl(url, dest, cookie):
     req = urllib.request.Request(url, headers={"Cookie": cookie})
     try:
-        with urllib.request.urlopen(req) as r, open(dest, "wb") as f:
-            f.write(r.read())
+        with urllib.request.urlopen(req) as r:
+            ct = r.headers.get("Content-Type", "")
+            if "text/html" in ct:
+                print(f"    SKIP(認証切れ): {dest.name}")
+                return False
+            data = r.read()
+            if data[:15].lstrip().startswith(b"<!DOCTYPE") or data[:15].lstrip().startswith(b"<html"):
+                print(f"    SKIP(認証切れ): {dest.name}")
+                return False
+            with open(dest, "wb") as f:
+                f.write(data)
         return True
     except (urllib.error.URLError, OSError) as e:
         print(f"    FAIL: {e}")
